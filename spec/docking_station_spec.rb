@@ -51,6 +51,6 @@ describe DockingStation do
 
 	it "shouldn't load a bike if full" do
 		20.times{old_street.dock bike}
-		expect { old_street.dock bike }.to raise_error "The docking station is full!"
+		expect { old_street.dock bike }.to raise_error "The DockingStation is full!"
 	end
 end

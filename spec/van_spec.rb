@@ -2,7 +2,7 @@ require 'van'
 
 describe Van do
 	let(:van) { Van.new }
-	let(:bike) {double :bike}
+	let(:bike) {double :bike, working?: false}
 
 	it "can have a default capacity" do
 		expect(van.capacity).to eq 10
@@ -35,6 +35,6 @@ describe Van do
 
 	it "shouldn't load a bike if full" do
 		10.times{van.load bike}
-		expect { van.load bike }.to raise_error "The van is full!"
+		expect { van.load bike }.to raise_error "The Van is full!"
 	end
 end
