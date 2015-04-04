@@ -34,4 +34,23 @@ describe DockingStation do
 		expect(old_street.available_bikes).to eq [bike]
 	end
 
+	it "can release a bike" do
+		old_street.dock(bike)
+		old_street.release(bike)
+		expect(old_street.available_bikes).to eq []
+	end
+
+	it "knows if it is full" do
+		20.times{old_street.dock bike}
+		expect(old_street).to be_full
+	end
+
+	it "knows if its not full" do
+		expect(old_street).not_to be_full
+	end
+
+	it "shouldn't load a bike if full" do
+		20.times{old_street.dock bike}
+		expect { old_street.dock bike }.to raise_error "The docking station is full!"
+	end
 end
