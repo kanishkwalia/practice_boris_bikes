@@ -20,5 +20,4 @@ class Van
 	def full?
 		bikes.count == capacity
 	end
-
 end

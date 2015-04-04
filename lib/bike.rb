@@ -16,5 +16,4 @@ class Bike
 		raise "Bike is already working!" if working?
 		@working = true
 	end
-
 end
