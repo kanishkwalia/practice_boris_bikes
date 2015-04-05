@@ -1,8 +1,10 @@
 require 'van'
 
 describe Van do
+	it_behaves_like "a bike container"
+
 	let(:van) { Van.new }
-	let(:broken_bike) {double :bike, working?: false}
+	let(:broken_bike) {double :broken_bike, working?: false}
 	let(:bike) {double :bike, working?: true}
 
 	it "can have a default capacity" do
@@ -19,26 +21,6 @@ describe Van do
 		expect(van.bikes).to eq [broken_bike]
 	end
 
-	it "can release a bike" do
-		van.load broken_bike
-		van.release broken_bike
-		expect(van.bikes).to eq []
-	end
-
-	it "knows if it is full" do
-		10.times{van.load broken_bike}
-		expect(van).to be_full
-	end
-
-	it "knows if its not full" do
-		expect(van).not_to be_full
-	end
-
-	it "shouldn't load a bike if full" do
-		10.times{van.load broken_bike}
-		expect { van.load broken_bike }.to raise_error "The Van is full!"
-	end
-
 	it "should be able to collect broken bikes from a station" do
 		docking_station = double :docking_station, bikes: [bike, broken_bike]
 		allow(docking_station).to receive(:release)
@@ -50,6 +32,21 @@ describe Van do
 		docking_station = double :docking_station, bikes: [bike, broken_bike]
 		expect(docking_station).to receive(:release).with broken_bike
 		van.collect_broken_bikes_from docking_station
+	end
+
+	it "should be able to drop off bikes to a garage" do
+		van.load broken_bike
+		garage = double :garage
+		allow(garage).to receive(:dock).with broken_bike
+		van.drop_off_bikes_to garage
+		expect(van.bikes).to eq []
+	end
+
+	it "should remove bikes from self once dropped off" do
+		van.load broken_bike
+		garage = double :garage
+		expect(garage).to receive(:dock).with broken_bike
+		van.drop_off_bikes_to garage
 	end
 
  end

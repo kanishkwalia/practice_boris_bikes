@@ -19,4 +19,5 @@ module BikeContainer
 	def working_bikes
 		@bikes.select(&:working?)
 	end
+	
 end

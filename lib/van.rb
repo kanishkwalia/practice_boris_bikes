@@ -12,12 +12,16 @@ class Van
 	end
 
 	def collect_broken_bikes_from station
-		station.bikes.each {|bike| transfer(bike, to: station) unless bike.working?}
+		station.bikes.each {|bike| transfer(bike, from: station, to: self) unless bike.working?}
 	end
 
-	def transfer bike, to: station
-		to.release(bike)
-		load(bike)
+	def transfer bike, from: station, to: station
+		from.release(bike)
+		to.dock(bike)
+	end
+
+	def drop_off_bikes_to garage
+		bikes.each {|bike| transfer bike, from: self, to: garage }
 	end
 
 	alias_method :load, :dock

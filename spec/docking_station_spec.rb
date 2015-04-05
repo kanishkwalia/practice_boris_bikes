@@ -1,6 +1,7 @@
 require 'docking_station'
 
 describe DockingStation do
+	it_behaves_like "a bike container"
 	let(:old_street) { DockingStation.new }
 	let(:bike) { double(:bike, {working?: true})}
 	let(:broken_bike) { double(:broken_bike, {working?: false})}
@@ -40,17 +41,4 @@ describe DockingStation do
 		expect(old_street.available_bikes).to eq []
 	end
 
-	it "knows if it is full" do
-		20.times{old_street.dock bike}
-		expect(old_street).to be_full
-	end
-
-	it "knows if its not full" do
-		expect(old_street).not_to be_full
-	end
-
-	it "shouldn't load a bike if full" do
-		20.times{old_street.dock bike}
-		expect { old_street.dock bike }.to raise_error "The DockingStation is full!"
-	end
 end
